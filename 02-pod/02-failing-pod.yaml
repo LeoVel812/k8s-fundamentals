@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - name: my-nginx-container
+      image: nginx
+    - name: my-failing-container
+      image: vinsdocker/k8s-failing-container:latest
