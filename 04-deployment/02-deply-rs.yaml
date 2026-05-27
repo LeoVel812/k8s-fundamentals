@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  replicas: 4
+  template: 
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service-local
+          image: vinsdocker/k8s-app:v2
+          env:
+            - name: "spring.profiles.active"
+              value: "dev"
+          ports:
+          - name: "app-port"
+            containerPort: 80
