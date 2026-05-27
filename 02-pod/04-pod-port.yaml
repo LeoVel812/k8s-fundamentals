@@ -9,6 +9,7 @@ spec:
   containers:
     - name: my-nginx-container
       image: nginx
+      # kubectl port-forward my-pod-1 80:80
       ports:
         - name: pod-port
           containerPort: 80

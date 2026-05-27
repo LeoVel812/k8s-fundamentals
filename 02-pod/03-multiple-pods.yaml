@@ -21,6 +21,7 @@ spec:
   containers:
     - name: my-nginx-container
       image: nginx
+# kubectl get pod my-pod-2 -o yaml: get the pod yaml and check its props
 --- # ----------------------------------
 apiVersion: v1
 kind: Pod
