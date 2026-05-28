@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-demo
+spec:
+  containers:
+    - name: mongo-startup
+      image: mongo
+      startupProbe:
+        tcpSocket:
+        # diff port to simulate a startup failure:
+          # port: 27018
+          port: 27017
+        periodSeconds: 5
+        failureThreshold: 3
