@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-svc-dp
+  # annotations to trigger rollout, and make it not a relative rollout
+  annotations:
+    kubernetes.io/change-cause: "Rolling update to v2"
+spec:
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # maxSurge: "100%"
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: order-svc
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: order-svc
+    spec:
+      containers:
+        - name: order-service-local
+          image: vinsdocker/k8s-app:v2
+          env:
+            - name: "spring.profiles.active"
+              value: "dev"
+          ports:
+            - name: "app-port"
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-svc
+spec:
+  selector:
+    app: order-svc
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# This pod is used to test the load balancing of the service.
+# It will send requests to the service and print the responses.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+spec:
+  terminationGracePeriodSeconds: 1
+  containers:
+    - name: demo-pod
+      image: vinsdocker/util
+      args:
+        - "sleep"
+        - "3600"

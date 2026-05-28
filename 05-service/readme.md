@@ -9,3 +9,5 @@
 * curl my-svc
 ## exposing ports
 * kubectl port-forward deploy/assignment-dp 8080:8080
+## for bash script 
+* for i in {1..1000}; do curl -s http://my-svc | grep -o "<title>[^<]*" | tail -c+8; done
