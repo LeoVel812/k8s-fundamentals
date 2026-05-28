@@ -14,6 +14,12 @@
 ## min ready seconds
 * Seconds that will take the deployment to get ready
     * Add this on spec node: minReadySeconds: 10
-
+## Deployment strategies
+### Recreate strategy
+* Delete all pods and create new ones
+    * Add this spec.strategy.type: Recreate
+    * Caution with this strategy, it could the service offline
 ## exposing ports
 * kubectl port-forward deploy/order-serv-deploy 8080:80
+## Watch real-time behavior of a pod
+* kubectl get pods -w
