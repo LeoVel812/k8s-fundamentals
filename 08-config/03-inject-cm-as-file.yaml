@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-props
+data:
+  app.properties: |
+    appUrl=http://my-svc
+    timeout=30
+    username=leoV
+
