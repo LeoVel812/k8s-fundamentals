@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-props
+data:
+  appUrl: "http://my-svc"
+  timeout: "30"
+  appHost: localhost
+  sleepSeconds: "15"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: ubuntu-ctn
+      image: ubuntu
+      envFrom:
+        - configMapRef:
+            name: app-props
+      args:
+      - env
