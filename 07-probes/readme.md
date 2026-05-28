@@ -14,6 +14,9 @@
 * if liveness probe fails when pod is running, it will immediately fail and will restart the pod
 
 ### readiness probe
+* it will be executed after startup probe succeds
+* if readiness probe fails when pod is running, it will keep the pod running but not ready, 
+* it won't restart the pod
 ## describe pod
 * kubectl describe pod
 ## watch pod

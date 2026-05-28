@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-demo
+spec:
+  containers:
+    - name: nginx-liveness
+    # This image will take 10 seconds to start up, so the liveness probe will fail if failureThreshold is less than 10
+      image: vinsdocker/k8s-probe-demo
+      startupProbe:
+        httpGet:
+          path: /
+          port: 80
+        periodSeconds: 1
+        failureThreshold: 30
+      livenessProbe:
+        httpGet:
+        # container will have this endpoint, so the liveness probe will succeed after startupProbe succeeds
+        # on dir usr/share/nginx/html/
+        # if live.html is removed, it will immediately fail and the container will be restarted
+          path: /live.html
+          port: 80
+        periodSeconds: 1
+        failureThreshold: 3
+      readinessProbe:
+        httpGet:
+        # container will have this endpoint, so the readiness probe will succeed after startupProbe succeeds
+        # on dir usr/share/nginx/html/
+        # if ready.html is removed, it will immediately fail and the container won't be restarted
+          path: /ready.html
+          port: 80
+        periodSeconds: 1
+        failureThreshold: 1
