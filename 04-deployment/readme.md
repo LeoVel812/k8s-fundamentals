@@ -29,3 +29,5 @@
 * kubectl port-forward deploy/order-serv-deploy 8080:80
 ## Watch real-time behavior of a pod
 * kubectl get pods -w
+## get pod details
+* kubectl get pod -o wide
