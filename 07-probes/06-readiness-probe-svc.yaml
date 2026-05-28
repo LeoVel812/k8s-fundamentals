@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: readiness-demo
+  name: readiness-pod
+  labels:
+    app: readiness-demo
 spec:
   containers:
     - name: nginx-liveness
@@ -27,7 +29,19 @@ spec:
         # container will have this endpoint, so the readiness probe will succeed after startupProbe succeeds
         # on dir usr/share/nginx/html/
         # if ready.html is removed, it will immediately fail and the container won't be restarted
+        # and if there is a service, the pod won't receive traffic, it will delete its endpoint from the service
           path: /ready.html
           port: 80
         periodSeconds: 1
         failureThreshold: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readiness-service
+spec:
+  selector:
+    app: readiness-demo
+  ports:
+    - port: 80
+      targetPort: 80

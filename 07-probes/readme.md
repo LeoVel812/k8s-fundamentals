@@ -17,6 +17,8 @@
 * it will be executed after startup probe succeds
 * if readiness probe fails when pod is running, it will keep the pod running but not ready, 
 * it won't restart the pod
+### on services 
+* when there is a readiness probe using k8s service, if it fails, it will delete its endpoint
 ## describe pod
 * kubectl describe pod
 ## watch pod
