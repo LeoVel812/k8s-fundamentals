@@ -22,7 +22,8 @@
 ### Rolling Update strategy
 * Gradually roll out the pods, mix of old a new pods
     * Add this spec.strategy.type: RollingUpdate
-    * spec.strategy.rollingUpdate.maxSurge: 100% or 1 (it means one pod more)
+    * spec.strategy.rollingUpdate.maxSurge: 100% or 1 (it means one replica more)
+    * spec.strategy.rollingUpdate.maxUnavailable: 2 (two replicas could be deleted when updating)
     * Caution with this strategy, it could saturate max available connections of DB, services, etc.
 ## exposing ports
 * kubectl port-forward deploy/order-serv-deploy 8080:80
