@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-serv-deploy
+  # annotations to trigger rollout, and make it not a relative rollout
+  annotations:
+    kubernetes.io/change-cause: "Rolling update to v2"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # maxSurge: "100%"
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: order-service
+  replicas: 3
+  template: 
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service-local
+          image: vinsdocker/k8s-app:v2
+          env:
+            - name: "spring.profiles.active"
+              value: "dev"
+          ports:
+          - name: "app-port"
+            containerPort: 80
