@@ -7,4 +7,41 @@ data:
     appUrl=http://my-svc
     timeout=30
     username=leoV
-
+    password=secret
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  terminationGracePeriodSeconds: 2
+  restartPolicy: Never
+  containers:
+    - name: ubuntu-cntn
+      image: ubuntu
+      # Mount the ConfigMap as a volume
+      volumeMounts:
+        - name: app-props-vol1
+          mountPath: /usr/share/props
+          readOnly: true
+      args:
+      - "sleep"
+      - "360"
+    - name: ubuntu-cntn2
+      image: ubuntu
+      # Mount the ConfigMap as a volume
+      volumeMounts:
+        - name: app-props-vol2
+          mountPath: /usr/props
+          readOnly: true
+      args:
+      - "sleep"
+      - "360"
+  # Define the volume that sources from the ConfigMap
+  volumes:
+    - name: app-props-vol1
+      configMap:
+        name: app-props
+    - name: app-props-vol2
+      configMap:
+        name: app-props
