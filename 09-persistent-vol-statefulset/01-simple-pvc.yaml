@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  storageClassName: standard # this is the default, it can be omitted
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G
