@@ -10,3 +10,5 @@
 * kubectl delete pod/my-pod
 ## delete pvc
 * kubectl delete -f .\01-simple-pvc.yaml
+## delete all pvc
+* kubectl delete pvc --all 
