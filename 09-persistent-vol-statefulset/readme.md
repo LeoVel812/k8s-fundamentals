@@ -12,3 +12,5 @@
 * kubectl delete -f .\01-simple-pvc.yaml
 ## delete all pvc
 * kubectl delete pvc --all 
+## stateful set
+* to DBs or any app which needs to persist a state
