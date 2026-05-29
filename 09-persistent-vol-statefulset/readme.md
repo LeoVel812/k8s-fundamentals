@@ -14,3 +14,7 @@
 * kubectl delete pvc --all 
 ## stateful set
 * to DBs or any app which needs to persist a state
+### headless svc
+* use on pod: nslookup nginx-svc
+* specific pod nslookup my-ss-1.nginx-svc
+* curl specific pod: curl my-ss-1.nginx-svc curl my-ss-2.nginx-svc curl my-ss-0.nginx-svc

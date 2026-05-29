@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-ss
+spec:
+  serviceName: "nginx-svc"
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 3
+  template: 
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+        - name: nginx-cntnr
+          image: vinsdocker/nginx-gke
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+spec:
+  type: ClusterIP 
+  clusterIP: None # This makes the service headless  
+  selector:
+    app: my-app
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# This pod is used to test the load balancing of the service.
+# It will send requests to the service and print the responses.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+spec:
+  terminationGracePeriodSeconds: 1
+  containers:
+    - name: demo-pod
+      image: vinsdocker/util
+      args:
+        - "sleep"
+        - "3600"
