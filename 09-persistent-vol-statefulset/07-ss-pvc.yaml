@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-ss
+spec:
+  serviceName: "nginx-svc"
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: nginx-cntnr
+          image: nginx
+          startupProbe:
+            exec:
+              command:
+                - "bin/sh"
+                - -c
+                - 'echo "Hello k8s from $(hostname)</br>" >> /usr/share/nginx/html/index.html'
+          volumeMounts:
+            - name: my-pvc
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: my-pvc
+      spec:
+        storageClassName: standard # this is the default, it can be omitted
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1G
