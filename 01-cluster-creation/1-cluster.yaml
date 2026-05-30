@@ -10,4 +10,5 @@ nodes:
   - role: worker
   - role: worker
 # to start the cluster with kind:  kind create cluster --config .\1-cluster.yaml
+# And also apply the metrics server to the cluster:  kubectl apply -f .\metrics-server.yaml
 # to exit the cluster:  kind delete cluster --name dev-cluster

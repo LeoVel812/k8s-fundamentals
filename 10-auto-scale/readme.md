@@ -8,3 +8,12 @@
 ## view metrics:
 * kubectl top pod
 * kubectl top node
+## view hpa
+* kubectl get hpa
+# view all pods of kube-system
+* kubectl get pod -n kube-system, 
+* check metrics-server
+## using ApacheBench on pod to test load on svc with hpa
+* execute demo pod of k8s cluster: kubectl exec -it demo-pod -- bash
+* execute the benchmark 20,000 requests by 5 users: ab -n 20000 -c 5 http://nginx-svc/
+* check metrics with installed metrics-server and kubectl get all
