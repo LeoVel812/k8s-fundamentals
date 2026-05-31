@@ -3,12 +3,16 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: dev-cluster
 nodes:
   - role: control-plane
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "ingress-ready=true"
+  # neither of the below configurations work to exposer the ingress correctly
+  # so apply the patch/patch.json
+    # kubeadmConfigPatches:
+    #   - |
+    #     kind: InitConfiguration
+    #     nodeRegistration:
+    #       kubeletExtraArgs:
+    #         node-labels: "ingress-ready=true"
+    labels:
+      ingress-ready: "true"
     extraPortMappings:
       - containerPort: 80
         hostPort: 80
@@ -22,8 +26,9 @@ nodes:
   - role: worker
   - role: worker
 
-# to start the cluster with kind:  kind create cluster --config .\resources\01-cluster.yaml
-# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-# And also apply the metrics server to the cluster: kubectl apply -f .\resources\metrics-server.yaml
-# to exit the cluster:  kind delete cluster --name dev-cluster
-
+# 1. to start the cluster with kind:  kind create cluster --config .\resources\01-cluster.yaml
+# 2. apply the nginx ingress controller yaml: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+#  download and apply the nginx ingress controller yaml: curl -L -o nginx-ingress.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+# 3. apply the metrics server to the cluster: kubectl apply -f .\resources\metrics-server.yaml
+# 4. apply the patch.json to expose the endpoints
+#  to delete the cluster:  kind delete cluster --name dev-cluster
