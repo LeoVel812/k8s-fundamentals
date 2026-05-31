@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  # annotations:
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  #   nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: home-svc
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /product
+            backend:
+              service:
+                name: product-svc
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /user
+            backend:
+              service:
+                name: user-svc
+                port:
+                  number: 80
